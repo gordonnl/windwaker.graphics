@@ -1,0 +1,108 @@
+
+# Link’s Expressions
+
+Link’s Expressions
+
+### Wind Waker Graphics Analysis Series
+
+[*Back to main article](https://medium.com/@gordonnl/wind-waker-graphics-analysis-a0b575a31127#.l6e4yz5ys)*
+
+The facial expressions in Wind Waker are a pivotal part to the game’s charm. Through the use of a handful of tiny textures, they suited the style perfectly, while giving the characters a breadth of emotive ability.
+
+Here are a couple examples to start with.
+
+![Concentration](https://cdn-images-1.medium.com/max/2880/1*wbChsWhT1aNKISN3Zu_oNQ.jpeg)*Concentration*
+
+![Awe](https://cdn-images-1.medium.com/max/2880/1*JbS579D3kh157yxXaxnJrA.jpeg)*Awe*
+
+![Determination](https://cdn-images-1.medium.com/max/2880/1*ZGMGXDfI9DgFlDbTCWZU5A.jpeg)*Determination*
+
+And it’s hard to leave out this memorable gag — with the humour coming purely from a few, well-timed facial expressions.
+
+<iframe src="https://medium.com/media/8c1e4bf1dd3ef3812d6c1a58197576bc" frameborder=0></iframe>
+
+Here is Link rendered using Threejs.
+
+![](https://cdn-images-1.medium.com/max/3616/1*h8pVK_v1jviu7MRSC6zPYg.jpeg)
+
+And here is an interactive Codepen. Have a play with the different facial features. It’s quite fun to see all of the combinations possible, no wonder they added a [‘selfie’ mode](https://www.youtube.com/watch?v=bJOGA8GCVHE) to the HD version!
+
+<iframe src="https://medium.com/media/60814deea7421ea960a4f37d2fa8850a" frameborder=0></iframe>
+
+The model was sourced from [Mystie](https://www.models-resource.com/submitter/Mystie/) — many thanks!
+
+### Body
+
+It was really amazing to dig into the model and check out the poly count and UV layout.
+
+Below is the model in Maya, it’s made up of just 1674 vertices, 2802 triangles.
+
+<iframe src="https://medium.com/media/2bd3e80fc5284ca435f348358efb80cf" frameborder=0></iframe>
+
+You can see in the wireframe that it’s really quite low-poly, however the sharp edges actually work perfectly with this style.
+
+Before I get to the facial expressions, I wanted to share some of the texture work used on the model — primarily this tiny texture.
+
+![](https://cdn-images-1.medium.com/max/2000/1*5s-q3UH0gwWmfuvDQ4UCKA.jpeg)
+
+Here you can see the body’s UVs laid out relating to this texture. Here is everything except the facial features.
+
+![](https://cdn-images-1.medium.com/max/3488/1*dN4Kpx8BXmKGx0byfGP9jA.png)
+
+An interesting note is that some features which are just a solid colour are not laid out at all. Instead, the whole mesh populates just a single UV coordinate. For example, the entire hair mesh gets its colour from a single point in the yellow portion of the map — used for the belt.
+
+![](https://cdn-images-1.medium.com/max/3392/1*Fgu6_2Ab0CAuU7AsoLELmg.png)
+
+### Face
+
+The facial features populate separate meshes to the body, and have their own textures. Below is an example of each type.
+
+![](https://cdn-images-1.medium.com/max/2000/1*kUucBMwBfVZkkoudrd0yOQ.jpeg)
+
+Link’s facial set features textures for 7 eye shapes, 6 eyebrows, 9 mouths, and 1 pupil. You can play around with these options in the Codepen above.
+
+Here we can see Link’s mouth’s UVs laid out over the corresponding image.
+
+![](https://cdn-images-1.medium.com/max/3924/1*vvxmmWesseBwbO2H1rzsZA.png)
+
+The eyes, brows and pupils consist of separate meshes that are raised slightly above the face.
+
+![](https://cdn-images-1.medium.com/max/2892/1*v5pQSY8yA7WQD5fWnrWkjA.jpeg)
+
+If we zoom in extra close, we can also see that even the pupil and eye meshes are separated slightly, done to avoid [z-fighting](https://en.wikipedia.org/wiki/Z-fighting).
+
+![](https://cdn-images-1.medium.com/max/2556/1*5TZo8xzCXuE4mnSAZXp5Ew.jpeg)
+
+The order isn’t obvious, as one would presume that the pupil lays behind the eye, as to mask it.
+
+![](https://cdn-images-1.medium.com/max/2880/1*HgLcX2GaOWPBkLphdESSzw.jpeg)
+
+However this is instead achieved through masking inside the shader itself. The eye texture is used as a mask, making the pupil only visible in the white areas of the eye image.
+
+### Pupils
+
+Below we can see an example of Link’s pupils dilating. This meant that not only could they shift Link’s pupils around to have him look in different directions, they were also able to scale the pupil texture.
+
+![](https://cdn-images-1.medium.com/max/2880/1*fD7YPvGX9AMEfF4xs_Afag.jpeg)
+
+This is achieved simply by scaling and shifting the UV coordinates themselves, and not the actual mesh. In my case, I passed the values into the fragment shader as a uniform, and updated the UVs accordingly.
+
+### Shading
+
+Even though it wasn’t related to Link’s expressions per se, I also had to simulate some simple lighting on the model to make the object more readable — notably the nose.
+
+![](https://cdn-images-1.medium.com/max/2880/1*elyCruyu07QdMmcKKNgVRg.jpeg)
+
+This flat-shaded style really shines once some basic lighting is applied. All I have done here is a dot product of the mesh’s normal (facing direction) against a light direction. This gives you a value of -1 to 1, of which I clamped to a range of 0.6 to 1, and multiplied against the final colour.
+
+All of the code can be found in this Codepen, which is the same as posted earlier in the article.
+
+<iframe src="https://medium.com/media/60814deea7421ea960a4f37d2fa8850a" frameborder=0></iframe>
+
+Short and sweet! There wasn’t too much to this effect, but it’s important none-the-less and very characteristic of the game’s unique style.
+
+![](https://cdn-images-1.medium.com/max/2880/1*yWiEpaaKlPb5Yq5oUl7kEw.jpeg)
+
+[*Next article—Wind](https://medium.com/@gordonnl/wind-f4fc7a3b366a)*
+
+[*Back to main article](https://medium.com/@gordonnl/wind-waker-graphics-analysis-a0b575a31127)*

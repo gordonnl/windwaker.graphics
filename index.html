@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, minimal-ui, initial-scale=1, viewport-fit=cover">
+        <title>Wind Waker Graphics Analysis</title>
+        <link href="assets/css/main.css" rel="stylesheet">
+    </head>
+    <body>
+        <script type="module">
+            import {marked} from './assets/js/marked.js';
+
+            (async function() {
+
+                // Read url for requested post
+                const post = !!window.location.hash ? window.location.hash.slice(3) : location.pathname.split('/').slice(-1)[0];
+
+                // Try to load post's markdown, or index if none requested
+                let response = await fetch(`./posts/${post || 'index'}.md`, {method: 'GET'});
+
+                // If not found, fallback to loading index
+                if (!response.ok) response = await fetch(`./posts/index.md`, {method: 'GET'});
+
+                // Get text from response
+                const text = await response.text();
+
+                // Replace this page's content with the converted markdown to html
+                document.body.innerHTML = marked(text);
+            })();
+        </script>
+    </body>
+</html>
