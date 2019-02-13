@@ -52,7 +52,7 @@ Using the above diagram as a guide, what we need to find is the cross-product of
 
 If we’re able to calculate this correctly, we’d get something like this.
 
-![](https://windwaker.graphics/assets/images/wind/loop-correct.jpeg)
+![](https://windwaker.graphics/assets/images/wind/loop-correct.png)
 
 ## Generating A Spiral
 
@@ -60,7 +60,7 @@ In the final effect, I’ve duplicated a single spiral curve 6 times, all slight
 
 To generate a spiral simply, it’s actually much easier to do so using code than by hand in a 3D program. Here’s the final spiral curve used in the example.
 
-![](https://windwaker.graphics/assets/images/wind/spiral.jpeg)
+![](https://windwaker.graphics/assets/images/wind/spiral.png)
 
 Once again in pseudocode, here’s how to create a basic spiral.
 
