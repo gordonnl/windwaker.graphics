@@ -4,7 +4,7 @@
 
 ### Learning from the masters
 
-By Nathan Gordon
+##### *By [Nathan Gordon](https://twitter.com/gordonnl)*
 
 I’m a huge fan of Zelda, The Wind Waker’s graphics. Bright, caricatured and well balanced; they were a masterful combination of artistry and technical ingenuity.
 
@@ -112,4 +112,4 @@ Special thanks goes to the amazing [Dolphin Emulator](https://dolphin-emu.org/)�
 
 [*Onto the first analysis — The Ocean*](https://windwaker.graphics/the-ocean)
 
-By Nathan Gordon
+##### *By [Nathan Gordon](https://twitter.com/gordonnl)*
