@@ -54,7 +54,7 @@ The flames make up the bulk of the whole effect — they look like they’re bei
 
 I couldn’t believe my eyes when I saw how tiny these textures were. These mini textures are all that’s used in the fire effect for the whole game. I’ve enlarged them here — take note of the actual size at the bottom right.
 
-![](https://windwaker.graphics/assets/images/fire-and-haze/sprite.jpeg)
+![](https://windwaker.graphics/assets/images/fire-and-haze/sprites.jpeg)
 
 For all of these textures, I have applied a black background instead of transparency for demonstration purposes. The two textures at the end are used for the embers and the haze effects, one for each.
 
@@ -64,11 +64,11 @@ The reason they could get away with such tiny textures is thanks to the default 
 
 For the flame textures, I found them in no particular order (it was a bit like finding treasure in a sea of tiny textures), but once they were placed into what I presume is the right order, they make this cute little dance!
 
-![](https://windwaker.graphics/assets/images/fire-and-haze/sprite-dance.jpeg)
+![](https://windwaker.graphics/assets/images/fire-and-haze/sprite-dance.gif)
 
 On the gamecube, it must have been more efficient (or just easier) to keep each flame in a separate file, and interchange these textures as the animation progressed. However, for the recreation, I stitched them all together into a sprite sheet and animated the texture coordinates to switch between them in the fragment shader. Here is the resulting sprite.
 
-![](https://windwaker.graphics/assets/images/fire-and-haze/sprite-final.jpeg)
+![](https://windwaker.graphics/assets/images/fire-and-haze/sprite-final.png)
 
 ### Quads
 
@@ -197,7 +197,7 @@ For the final effect, the screen’s coordinates are used instead of the quads�
 
 Below is the texture used to push the pixels around, creating the warping effect. It’s fairly crazy to think this texture is all that’s used to create the resulting effect.
 
-![](https://windwaker.graphics/assets/images/fire-and-haze/deformation.jpeg)
+![](https://windwaker.graphics/assets/images/fire-and-haze/deformation.png)
 
 Digging a little deeper, below the left and center images show the grey and alpha values of the image — interesting to note how they’re quite different! The grey value around the edges is obviously not meant to affect the pixels, otherwise we’d end up with hard edges, so we can assume this value will be read as 0. This means that anything darker will be negative, and brighter positive. In doing so for both images, this results in 4 directions of movement.
 
