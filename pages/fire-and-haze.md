@@ -96,7 +96,7 @@ From the short capture above, and especially the isolated flames below, you can 
 
 I recreated this through animating the quads’ scale in the vertex shader, by passing in a *life* value of 0 to 1, and then using that to drive the scale and opacity. When combined with the random scale passed into each instance, the animation looks like this.
 
-<video src="https://windwaker.graphics/assets/videos/fire-and-haze/quads-animation.mp4" playsinline loop muted autoplay="autoplay"></video>
+<video src="https://windwaker.graphics/assets/videos/fire-and-haze/quads.mp4" playsinline loop muted autoplay="autoplay"></video>
 
 ### Colour
 
