@@ -1,4 +1,4 @@
-![](https://windwaker.graphics/assets/images/index/header.jpeg)
+![](https://windwaker.graphics/assets/images/the-ocean/header.jpeg)
 
 # The Ocean
 
@@ -32,7 +32,7 @@ In a fragment shader, this texture is repeated many times. By starting with a ba
 
 This result can be seen below on the left.
 
-![Ocean shader before and after sine-curve displacement](https://windwaker.graphics/assets/images/the-ocean/displacement.jpeg))*Ocean shader before and after sine-curve displacement*
+![Ocean shader before and after sine-curve displacement](https://windwaker.graphics/assets/images/the-ocean/displacement.jpeg)*Ocean shader before and after sine-curve displacement*
 
 The original also had some visible rippling — warping the texture somewhat to break up the pattern even further. So to recreate this, I’ve use some compound sine curves to displace the texture lookup’s coordinates, as seen above on the right.
 

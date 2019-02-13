@@ -169,6 +169,10 @@ code, pre {
     line-height: 1.4em;
 }
 
+pre {
+    margin: 30px auto 0px;
+}
+
 code {
     background: #343538;
     color: #f8f8f2;
