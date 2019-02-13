@@ -23,19 +23,19 @@ For the ultimate experience, I’d recommend listening to the [incredibly uplift
 
 Click on the following links to access each analysis — each include a detailed walk-through and working codepens of the recreated effect.
 
-* [*The Ocean](https://medium.com/@gordonnl/the-ocean-170fdfd659f1)*
+* [*The Ocean*](https://medium.com/@gordonnl/the-ocean-170fdfd659f1)
 
 ![](https://cdn-images-1.medium.com/max/3794/1*eS4IPO4qdLCFm-Te6Ba-uw.jpeg)
 
-* [*Fire and Haze](https://medium.com/@gordonnl/fire-and-haze-b4561743b17)*
+* [*Fire and Haze*](https://medium.com/@gordonnl/fire-and-haze-b4561743b17)
 
 ![](https://cdn-images-1.medium.com/max/3794/1*S6nwZ3Hhmm01Y1VQc1XwNA.jpeg)
 
-* [*Link’s Expressions](https://medium.com/@gordonnl/links-expressions-eb7beae2c62c)*
+* [*Link’s Expressions*](https://medium.com/@gordonnl/links-expressions-eb7beae2c62c)
 
 ![](https://cdn-images-1.medium.com/max/3200/1*WWiMA12Gc7yUL0IIYZCnhw.jpeg)
 
-* [*Wind](https://medium.com/@gordonnl/wind-f4fc7a3b366a)*
+* [*Wind*](https://medium.com/@gordonnl/wind-f4fc7a3b366a)
 
 ![](https://cdn-images-1.medium.com/max/3200/1*j8JIWUsfwUCuRT0yeIFjlw.jpeg)
 
@@ -107,4 +107,4 @@ Love reading game and graphics analyses? Check out these great sources:
 
 Special thanks goes to the amazing [Dolphin Emulator](https://dolphin-emu.org/)’s devs — you guys are absolute champs in my book.
 
-[*Onto the first analysis — The Ocean](https://medium.com/@gordonnl/the-ocean-170fdfd659f1#.t3u0ccarv)*
+[*Onto the first analysis — The Ocean*](https://medium.com/@gordonnl/the-ocean-170fdfd659f1#.t3u0ccarv)

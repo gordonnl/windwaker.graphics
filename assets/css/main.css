@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Heebo:400,500|Lora:400,400i,700,700i|Libre+Baskerville:400,400i');
+
 * {
     box-sizing: border-box;
 }
@@ -29,3 +31,95 @@ a, button, input, select, textarea {
     overflow-x: hidden;
     height: 100%;
 }
+
+
+body {
+    font-family: 'Lora', serif;
+    font-size: 20px;
+    line-height: 1.6em;
+    letter-spacing: -0.005em;
+    color: rgba(0, 0, 0, 0.84);
+    font-weight: normal;
+}
+
+body > * {
+    width: 100%;
+    max-width: 740px;
+    padding: 0px 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 40px;
+    letter-spacing: -0.02em;
+    line-height: 1.1em;
+    margin: 50px auto 0px;
+    font-weight: normal;
+}
+
+h2, h3, h4 {
+    font-family: 'Heebo', sans-serif;
+    letter-spacing: -0.01em;
+    line-height: 1.3em;
+    font-weight: 500;
+}
+
+h2 {
+    font-size: 34px;
+    margin: 60px auto 0px;
+}
+
+h3 {
+    font-size: 26px;
+    margin: 40px auto 0px;
+    color: rgba(0,0,0,.5);
+    font-weight: 400;
+}
+
+h1 + h3 {
+    margin-top: 10px;
+}
+
+h4 {
+    font-size: 19px;
+}
+
+p {
+    margin-top: 30px;
+}
+
+li > p:first-of-type {
+    margin-top: 0;
+}
+
+h2 + p {
+    margin-top: 20px;
+}
+
+img {
+    width: 100%;
+    margin: 10px 0px;
+}
+
+a {
+    color: inherit;
+}
+
+ul {
+    margin-top: 30px;
+}
+
+li {
+    margin-left: 30px;
+    margin-top: 10px;
+}
+
+/* 
+font-family: 'Fira Sans', sans-serif;
+font-family: 'EB Garamond', serif;
+font-family: 'Noto Serif', serif;
+font-family: 'Lora', serif;
+font-family: 'Playfair Display', serif;
+ */
