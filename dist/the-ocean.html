@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, minimal-ui, initial-scale=1, viewport-fit=cover">
+        <title>The Ocean</title>
+        <link rel="icon" type="image/png" href="assets/images/favicon.png">
+        <link href="assets/css/main.css" rel="stylesheet">
+    </head>
+    <body>
+        <p><img src="assets/images/the-ocean/header.jpeg" alt=""></p>
+<h1 id="the-ocean">The Ocean</h1>
+<h3 id="wind-waker-graphics-analysis-series">Wind Waker Graphics Analysis Series</h3>
+<h5 id="by-nathan-gordon"><em>By <a href="https://twitter.com/gordonnl">Nathan Gordon</a></em></h5>
+<p><a href="index.html"><em>Back to main article</em></a></p>
+<p>You spend a lot of time surrounded by it in the game, so obviously getting its look right would have been a major goal for the team.</p>
+<p>Although there are two variations of oceans in Wind Waker, I find this version to be the most memorable and interesting. It has such a calming effect, and those foam lines were so handy for getting in the right spot to haul up treasure chests!</p>
+<p><video src="assets/videos/the-ocean/reference.mp4" playsinline loop muted autoplay="autoplay"></video></p>
+<p>Here is my attempt at recreating it using Threejs.</p>
+<p><video src="assets/videos/the-ocean/recreation.mp4" playsinline loop muted autoplay="autoplay"></video></p>
+<p>For all of these experiments, although I don’t know the exact way that the original developers achieved the effect in-game, plus the pipeline I am using is vastly different to the Gamecube’s, I still believe the techniques used to recreate the effects will be close enough to shed insight on the clever thinking behind them!</p>
+<p>This effect relies heavily on a simple little trick — compound sine curves. These are really useful little curves that can break up the patterns and help to create a more realistic aesthetic. Plus they can be used to create so many different effects — I’m finding more uses for them all the time. I’ll go through them in depth in just a moment.</p>
+<h3 id="fragment-shader">Fragment shader</h3>
+<p>To start with, here is the texture shape used in the game. Making gorgeous tileable assets that don’t seem repetitive is no easy task.</p>
+<p><img src="assets/images/the-ocean/texture.jpeg" alt=""></p>
+<p>In a fragment shader, this texture is repeated many times. By starting with a base blue colour, I used the texture above as a mask to add the white colour onto the image — leaving blue where the texture is black. Then I repeated this, but with dark blue instead of white — however I also offset the texture lookup slightly, so that the white and blue lines didn’t fall on top of each other.</p>
+<p>This result can be seen below on the left.</p>
+<p><img src="assets/images/the-ocean/displacement.jpeg" alt="Ocean shader before and after sine-curve displacement"><em>Ocean shader before and after sine-curve displacement</em></p>
+<p>The original also had some visible rippling — warping the texture somewhat to break up the pattern even further. So to recreate this, I’ve use some compound sine curves to displace the texture lookup’s coordinates, as seen above on the right.</p>
+<p>An added benefit of using sine curves for displacement, is that they animate so beautifully by simply throwing time into the equation.</p>
+<p><video src="assets/videos/the-ocean/texture.mp4" playsinline loop muted autoplay="autoplay"></video></p>
+<h3 id="compound-sine-curves">Compound sine curves</h3>
+<p>So, to explain what compound sine curves are. Start with a sine curve.</p>
+<pre><code class="glsl">y = <span class="hljs-built_in">sin</span>(x)</code></pre>
+<p><img src="assets/images/the-ocean/sine.jpeg" alt="Sine curve"><em>Sine curve</em></p>
+<p>Although very beautiful, it is visibly regular and repetitive.</p>
+<p>Now, simply combine several sine curves to <em>compound</em> them.</p>
+<pre><code class="glsl">y = <span class="hljs-built_in">sin</span>(x) + <span class="hljs-built_in">sin</span>(<span class="hljs-number">2</span>x)</code></pre>
+<p><img src="assets/images/the-ocean/compound-sine.jpeg" alt="Simple compound sine curve"><em>Simple compound sine curve</em></p>
+<p>Straight away it looks a little more interesting, but still fairly symmetrical.</p>
+<p>Here we take it another step further.</p>
+<pre><code class="glsl">y = (<span class="hljs-built_in">sin</span>(x) + <span class="hljs-built_in">sin</span>(<span class="hljs-number">2.2</span>x+<span class="hljs-number">5.52</span>) + <span class="hljs-built_in">sin</span>(<span class="hljs-number">2.9</span>x+<span class="hljs-number">0.93</span>) + <span class="hljs-built_in">sin</span>(<span class="hljs-number">4.6</span>x+<span class="hljs-number">8.94</span>)) / <span class="hljs-number">4</span></code></pre>
+<p><img src="assets/images/the-ocean/complex-compound-sine.jpeg" alt="More complex compound sine curve"><em>More complex compound sine curve</em></p>
+<p>Here, four sine curves have been used, each with a different scale and offset.</p>
+<p>By changing the amount of sine curves used and the scale and offsets of each, the effect can be vastly different. By also adding a time variable into each sin curve, the line will animate, much like an ocean swell — ebbing and flowing.</p>
+<p>So much can be done using this technique; it could be used as a simple noise alternative, to simulate natural phenomenon, or just to add some subtle movement.</p>
+<h3 id="vertex-shader">Vertex shader</h3>
+<p>In order to create the rising and falling of the ocean swell, we need to first understand a couple of facts about the ocean from the game.</p>
+<p><video src="assets/videos/the-ocean/wireframe.mp4" playsinline loop muted autoplay="autoplay"></video></p>
+<p>From above it’s interesting to note that Link doesn’t visually move up and down with the ocean swell, he merely bobs around. Instead, it looks like the ocean itself, and the nearby island too, rise and fall to compensate. This could be achieved by attaching the ocean object to the character position.</p>
+<p>Another important discovery is that the ocean geometry doesn’t shift with the boat’s movement, instead the texture and swell shifts across the plane, along with any other game objects.</p>
+<p>To get started, I again used the compound sine curves technique to create the rising and falling of the waves, displacing the *y *value of the plane’s geometry. Here it is in one direction.</p>
+<p><video src="assets/videos/the-ocean/sine-noise.mp4" playsinline loop muted autoplay="autoplay"></video></p>
+<p>An obvious problem here is that the boat (white square) doesn’t stay on the surface. Instead of updating the boat’s position, let’s instead offset the ocean surface to account for it.</p>
+<p><video src="assets/videos/the-ocean/sine-noise-accounted.mp4" playsinline loop muted autoplay="autoplay"></video></p>
+<p>What I’m doing here is first calculating the surface height for each point along the curve, and then subtracting the surface height at the boat’s location, which is an easy computation if we assume that it is sitting at the point 0. As the boat’s position is the same for each calculation, this shifts the entire curve up and down.</p>
+<pre><code class="glsl"><span class="hljs-type">float</span> calculateSurface(<span class="hljs-type">float</span> x) {
+    <span class="hljs-type">float</span> y = (<span class="hljs-built_in">sin</span>(x * <span class="hljs-number">1.0</span> + time * <span class="hljs-number">1.0</span>) + <span class="hljs-built_in">sin</span>(x * <span class="hljs-number">2.3</span> + time * <span class="hljs-number">1.5</span>) + <span class="hljs-built_in">sin</span>(x * <span class="hljs-number">3.3</span> + time * <span class="hljs-number">0.4</span>)) / <span class="hljs-number">3.0</span>;
+    <span class="hljs-keyword">return</span> y;
+}
+
+pos.y = calculateSurface(pos.x);
+pos.y -= calculateSurface(<span class="hljs-number">0.0</span>);</code></pre>
+<p>Here is a 3D view of compound sine curves being applied in both directions.</p>
+<p><video src="assets/videos/the-ocean/sine-noise-2d.mp4" playsinline loop muted autoplay="autoplay"></video></p>
+<p>I find it looks a little bit like a basic Perlin noise, however it is very efficient to compute.</p>
+<p>An interesting note — as the gamecube didn’t support vertex shaders, these calculations would have been applied directly to the vertices’ positions on the CPU instead.</p>
+<p>Using this simple technique also means that the surface height of the water at any location can be found simply by passing those values into the algorithm.</p>
+<p><video src="assets/videos/the-ocean/sine-noise-values.mp4" playsinline loop muted autoplay="autoplay"></video></p>
+<p>This could be applied to passing boats or debris. A floating object’s orientation could also be easily achieved from passing four points from the corners of the object into the algorithm.</p>
+<p>To replicate movement around the ocean without actually moving the plane, the texture lookup can be offset by a movement vector, making the texture slide across the surface. The offset texture lookup could also be used as inputs for the plane’s displacement. Thanks to the infinite nature of sine curves, this would be a very simple solution to creating a seemingly never-ending ocean.</p>
+<p><video src="assets/videos/the-ocean/final.mp4" playsinline loop muted autoplay="autoplay"></video></p>
+<p>Now that was a rather basic effect, but I really love the simplicity of it — used to create a location that I spent countless hours exploring in the game as a child.</p>
+<p>And here is the full recreation in a Codepen.</p>
+<iframe src="https://medium.com/media/436fa9a17cc4b7d84765d2a46664657e" frameborder=0></iframe>
+
+<p><a href="fire-and-haze.html"><em>Onto the next analysis — Fire and Haze!</em></a></p>
+<p><a href="index.html"><em>Back to main article</em></a></p>
+<h5 id="by-nathan-gordon-1"><em>By <a href="https://twitter.com/gordonnl">Nathan Gordon</a></em></h5>
+
+    </body>
+</html>

@@ -1,4 +1,4 @@
-![](https://windwaker.graphics/assets/images/wind/header.jpeg)
+![](dist/assets/images/wind/header.jpeg)
 
 # Wind
 
@@ -6,17 +6,17 @@
 
 ##### *By [Nathan Gordon](https://twitter.com/gordonnl)*
 
-[*Back to main article*](https://windwaker.graphics)
+[*Back to main article*](?index)
 
 It’s been over a year since my last Wind Waker article… slap on the wrist. I’m going to ease back in with a nice and simple, but very applicable effect.
 
 Wind effects are used throughout the game, often just for ambient touches while sailing etc, but also very successfully in many focal visual effects. For example, the warp-point below — used to transport the character to another location. This is what we’ll be re-creating.
 
-<video src="https://windwaker.graphics/assets/videos/wind/reference.mp4" playsinline loop muted autoplay="autoplay"></video>
+<video src="dist/assets/videos/wind/reference.mp4" playsinline loop muted autoplay="autoplay"></video>
 
 And here’s the final version using Threejs:
 
-<video src="https://windwaker.graphics/assets/videos/wind/recreation.mp4" playsinline loop muted autoplay="autoplay"></video>
+<video src="dist/assets/videos/wind/recreation.mp4" playsinline loop muted autoplay="autoplay"></video>
 
 As usual, a working Codepen can be found at the bottom of this article.
 
@@ -24,7 +24,7 @@ As usual, a working Codepen can be found at the bottom of this article.
 
 What we’re creating here is based from a geometry-generation technique called *Thick Lines* or *Ribbons*. They are when you take a curve, and extend the edges so that the curve has thickness.
 
-![](https://windwaker.graphics/assets/images/wind/lines.jpeg)
+![](dist/assets/images/wind/lines.jpeg)
 
 On today’s console and PC games, this would be achieved using a Geometry Shader. On the gamecube and WebGL however, we don’t have that ability.
 
@@ -38,21 +38,21 @@ Instead, we can achieve the effect in quite a few ways. The simplest, and one th
 
 So if we apply this to a simple curve, we’ll get something like this.
 
-![](https://windwaker.graphics/assets/images/wind/simple-curve.png)
+![](dist/assets/images/wind/simple-curve.png)
 
 That’s all we need to create our spiral geometry. However, just to cover all bases, if the curve is a little more complex, we’ll start to run into problems.
 
-![](https://windwaker.graphics/assets/images/wind/loop.png)
+![](dist/assets/images/wind/loop.png)
 
 Here the edges of the loop don’t extend outwards like you’d expect them to. What we’d need here is to be able to push the vertices in a direction perpendicular from the direction of the curve, and to do that we need to take into account each segment’s direction.
 
-![](https://windwaker.graphics/assets/images/wind/segment-direction.jpeg)
+![](dist/assets/images/wind/segment-direction.jpeg)
 
 Using the above diagram as a guide, what we need to find is the cross-product of *ab* and *bc*, which would be a vector looking straight towards us. Then we’d rotate that vector 90 degrees around the vector *ac*, leaving us with the offset direction.
 
 If we’re able to calculate this correctly, we’d get something like this.
 
-![](https://windwaker.graphics/assets/images/wind/loop-correct.png)
+![](dist/assets/images/wind/loop-correct.png)
 
 ## Generating A Spiral
 
@@ -60,7 +60,7 @@ In the final effect, I’ve duplicated a single spiral curve 6 times, all slight
 
 To generate a spiral simply, it’s actually much easier to do so using code than by hand in a 3D program. Here’s the final spiral curve used in the example.
 
-![](https://windwaker.graphics/assets/images/wind/spiral.png)
+![](dist/assets/images/wind/spiral.png)
 
 Once again in pseudocode, here’s how to create a basic spiral.
 
@@ -86,19 +86,19 @@ The animation is where the beauty of the effect lies. Surprisingly we don’t ne
 
 Here’s how a single animated spiral looks on its own.
 
-<video src="https://windwaker.graphics/assets/videos/wind/single.mp4" playsinline loop muted autoplay="autoplay"></video>
+<video src="dist/assets/videos/wind/single.mp4" playsinline loop muted autoplay="autoplay"></video>
 
 All that’s animating here is the texture on top of the geometry. For the gamecube, the developers would have used a texture, however I remade this using a shader. I’ll break it into a couple of steps, using a basic quad to illustrate.
 
-<video src="https://windwaker.graphics/assets/videos/wind/texture.mp4" playsinline loop muted autoplay="autoplay"></video>
+<video src="dist/assets/videos/wind/texture.mp4" playsinline loop muted autoplay="autoplay"></video>
 
 First I create an opaque section with a falloff, and get it to translate across the shape.
 
-<video src="https://windwaker.graphics/assets/videos/wind/falloff.mp4" playsinline loop muted autoplay="autoplay"></video>
+<video src="dist/assets/videos/wind/falloff.mp4" playsinline loop muted autoplay="autoplay"></video>
 
 Then I round the edges to make it look smoother and have a tapered start and end to the line.
 
-<video src="https://windwaker.graphics/assets/videos/wind/taper.mp4" playsinline loop muted autoplay="autoplay"></video>
+<video src="dist/assets/videos/wind/taper.mp4" playsinline loop muted autoplay="autoplay"></video>
 
 Then finally I fade the shape at the beginning and end to hide the ends of the geometry.
 
@@ -108,7 +108,7 @@ As a general rule, always try to hide the patterns by adding slight variations t
 
 The finishing touch is just to rotate the entire group of spirals, to again make it more difficult to notice the geometry’s actual shape.
 
-<video src="https://windwaker.graphics/assets/videos/wind/rotation.mp4" playsinline loop muted autoplay="autoplay"></video>
+<video src="dist/assets/videos/wind/rotation.mp4" playsinline loop muted autoplay="autoplay"></video>
 
 ### End
 
@@ -120,6 +120,6 @@ Below you can find the full code source in a working Codepen.
 
 *Coming soon — Particle Explosions*
 
-[*Back to main article*](https://windwaker.graphics)
+[*Back to main article*](?index)
 
 ##### *By [Nathan Gordon](https://twitter.com/gordonnl)*

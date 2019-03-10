@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, minimal-ui, initial-scale=1, viewport-fit=cover">
+        <title>Wind</title>
+        <link rel="icon" type="image/png" href="assets/images/favicon.png">
+        <link href="assets/css/main.css" rel="stylesheet">
+    </head>
+    <body>
+        <p><img src="assets/images/wind/header.jpeg" alt=""></p>
+<h1 id="wind">Wind</h1>
+<h3 id="wind-waker-graphics-analysis-series">Wind Waker Graphics Analysis Series</h3>
+<h5 id="by-nathan-gordon"><em>By <a href="https://twitter.com/gordonnl">Nathan Gordon</a></em></h5>
+<p><a href="index.html"><em>Back to main article</em></a></p>
+<p>It’s been over a year since my last Wind Waker article… slap on the wrist. I’m going to ease back in with a nice and simple, but very applicable effect.</p>
+<p>Wind effects are used throughout the game, often just for ambient touches while sailing etc, but also very successfully in many focal visual effects. For example, the warp-point below — used to transport the character to another location. This is what we’ll be re-creating.</p>
+<p><video src="assets/videos/wind/reference.mp4" playsinline loop muted autoplay="autoplay"></video></p>
+<p>And here’s the final version using Threejs:</p>
+<p><video src="assets/videos/wind/recreation.mp4" playsinline loop muted autoplay="autoplay"></video></p>
+<p>As usual, a working Codepen can be found at the bottom of this article.</p>
+<h2 id="thick-lines">Thick Lines</h2>
+<p>What we’re creating here is based from a geometry-generation technique called <em>Thick Lines</em> or <em>Ribbons</em>. They are when you take a curve, and extend the edges so that the curve has thickness.</p>
+<p><img src="assets/images/wind/lines.jpeg" alt=""></p>
+<p>On today’s console and PC games, this would be achieved using a Geometry Shader. On the gamecube and WebGL however, we don’t have that ability.</p>
+<p>Instead, we can achieve the effect in quite a few ways. The simplest, and one that works perfectly for our needs, is to just push and pull the vertices along a single axis using javascript. For example, here is some pseudocode explaining how to do this along the Y axis.</p>
+<pre><code>create new empty geometry
+<span class="hljs-keyword">for</span> each point <span class="hljs-keyword">in</span> our curve
+    create two <span class="hljs-keyword">vertices</span> at the point's <span class="hljs-keyword">location</span>
+    push the first vertex's Y position up
+    pull the second vertex's Y position down</code></pre><p>So if we apply this to a simple curve, we’ll get something like this.</p>
+<p><img src="assets/images/wind/simple-curve.png" alt=""></p>
+<p>That’s all we need to create our spiral geometry. However, just to cover all bases, if the curve is a little more complex, we’ll start to run into problems.</p>
+<p><img src="assets/images/wind/loop.png" alt=""></p>
+<p>Here the edges of the loop don’t extend outwards like you’d expect them to. What we’d need here is to be able to push the vertices in a direction perpendicular from the direction of the curve, and to do that we need to take into account each segment’s direction.</p>
+<p><img src="assets/images/wind/segment-direction.jpeg" alt=""></p>
+<p>Using the above diagram as a guide, what we need to find is the cross-product of <em>ab</em> and <em>bc</em>, which would be a vector looking straight towards us. Then we’d rotate that vector 90 degrees around the vector <em>ac</em>, leaving us with the offset direction.</p>
+<p>If we’re able to calculate this correctly, we’d get something like this.</p>
+<p><img src="assets/images/wind/loop-correct.png" alt=""></p>
+<h2 id="generating-a-spiral">Generating A Spiral</h2>
+<p>In the final effect, I’ve duplicated a single spiral curve 6 times, all slightly offset and animating at different speeds.</p>
+<p>To generate a spiral simply, it’s actually much easier to do so using code than by hand in a 3D program. Here’s the final spiral curve used in the example.</p>
+<p><img src="assets/images/wind/spiral.png" alt=""></p>
+<p>Once again in pseudocode, here’s how to create a basic spiral.</p>
+<pre><code><span class="hljs-keyword">set</span> radius to 10
+<span class="hljs-keyword">set</span> angle to 0
+<span class="hljs-keyword">set</span> height to 2
+
+for n amount of times
+    make radius slightly smaller
+    rotate angle by a small amount
+    make height slightly smaller
+
+    create new point
+    <span class="hljs-keyword">set</span> point x to radius * cos(angle)
+    <span class="hljs-keyword">set</span> point z to radius * sin(angle)
+    <span class="hljs-keyword">set</span> point y to height</code></pre><p>So as you add more points, the radius get’s smaller and smaller, creating a spiral form. For the spiral used in the example, I tweaked some multipliers so that the rate of change wasn’t linear. This means that the radius decreases a lot at the beginning, but less over time. Doing so gives us more rotations near the middle, more closely resembling the reference.</p>
+<h2 id="animation">Animation</h2>
+<p>The animation is where the beauty of the effect lies. Surprisingly we don’t need to animate the geometry at all.</p>
+<p>Here’s how a single animated spiral looks on its own.</p>
+<p><video src="assets/videos/wind/single.mp4" playsinline loop muted autoplay="autoplay"></video></p>
+<p>All that’s animating here is the texture on top of the geometry. For the gamecube, the developers would have used a texture, however I remade this using a shader. I’ll break it into a couple of steps, using a basic quad to illustrate.</p>
+<p><video src="assets/videos/wind/texture.mp4" playsinline loop muted autoplay="autoplay"></video></p>
+<p>First I create an opaque section with a falloff, and get it to translate across the shape.</p>
+<p><video src="assets/videos/wind/falloff.mp4" playsinline loop muted autoplay="autoplay"></video></p>
+<p>Then I round the edges to make it look smoother and have a tapered start and end to the line.</p>
+<p><video src="assets/videos/wind/taper.mp4" playsinline loop muted autoplay="autoplay"></video></p>
+<p>Then finally I fade the shape at the beginning and end to hide the ends of the geometry.</p>
+<p>When all the lines are animating together, I offset the timing so that they’re not all animating at the same time.</p>
+<p>As a general rule, always try to hide the patterns by adding slight variations to make it more visually interesting.</p>
+<p>The finishing touch is just to rotate the entire group of spirals, to again make it more difficult to notice the geometry’s actual shape.</p>
+<p><video src="assets/videos/wind/rotation.mp4" playsinline loop muted autoplay="autoplay"></video></p>
+<h3 id="end">End</h3>
+<p>I find this is a really cool effect for fairly limited effort. While recreating the animation I kept noticing little touches they’d added, like the fading of the texture at the beginning and end. It’s attention to detail like this that really helps sell the effect and hide the extremely simple underlying nature.</p>
+<p>Below you can find the full code source in a working Codepen.</p>
+<iframe src="https://medium.com/media/72ab8e38dbc4928a94dc121850efca5c" frameborder=0></iframe>
+
+<p><em>Coming soon — Particle Explosions</em></p>
+<p><a href="index.html"><em>Back to main article</em></a></p>
+<h5 id="by-nathan-gordon-1"><em>By <a href="https://twitter.com/gordonnl">Nathan Gordon</a></em></h5>
+
+    </body>
+</html>
