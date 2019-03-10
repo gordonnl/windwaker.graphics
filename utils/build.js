@@ -1,6 +1,6 @@
 const INDEX = `${__dirname}/../index.html`;
 const PAGES = `${__dirname}/../pages/`;
-const BUILD = `${__dirname}/../dist/`;
+const BUILD = `${__dirname}/../docs/`;
 
 const fs = require('fs');
 const marked = require('./lib/marked-node');
@@ -36,8 +36,8 @@ markdown.forEach(file => {
     const newTitle = output.match(/>(.*?)<\/h1>/)[1] || null;
     if (newTitle) output = output.replace(/<title>(.*?)<\/title>/, `<title>${newTitle}</title>`);
 
-    // Replace 'dist/assets' with 'assets'
-    output = output.replace(/dist\/assets/g, 'assets');
+    // Replace 'docs/assets' with 'assets'
+    output = output.replace(/docs\/assets/g, 'assets');
 
     // Replace local '?' dev links with built '.html'
     output = output.replace(/href="\?(.*?)"/g, 'href="$1.html"')
